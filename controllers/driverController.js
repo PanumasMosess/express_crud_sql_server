@@ -42,9 +42,21 @@ const updateDriver = async (req, res, next) => {
   }
 };
 
+const deleteDriver = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const deleted = await driverData.deleteDriverById_(id);
+    res.send(deleted);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
 module.exports = {
   getDrivers,
   getDriver,
   addDriver,
-  updateDriver
+  updateDriver,
+  deleteDriver
 };

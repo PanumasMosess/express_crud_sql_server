@@ -81,11 +81,24 @@ const updateDriver_ = async (driver_id, driverData) => {
   }
 }
 
-
+const deleteDriverById_ = async (driverId) => {
+  try {
+    let pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("drivers");
+    const oneDeleteDriver = await pool
+      .request()
+      .input("driver_id", sql.Int, driverId)
+      .query(sqlQueries.deleteDriver);
+    return oneDeleteDriver.recordset;
+  } catch (error) {
+    return error.message;
+  }
+};
 
 module.exports = {
   getDrivers,
   getDriverById,
   createDriver_,
-  updateDriver_
+  updateDriver_,
+  deleteDriverById_
 };
